@@ -22,75 +22,76 @@ const Dashboard = () => {
 
 
     useEffect(() => {
-       fetch('http://localhost:5173/')
-        .then(res => res.json())
-        .then(data => setSearch(data.results)) // arreglo de pokemones
-        .catch(error => console.error(error))
+       fetch('https://delicate-frangollo-3b1c89.netlify.app/')
+       .then(res => res.json())
+       .then(data => setSearch(data.results)) // arreglo de productos
+       .catch(error => console.error(error))
 
-        if (isError) {
-            console.log(message)
-        }
+       if (isError) {
+           console.log(message)
+       }
 
-        if (!user) {
-            navigate('/login')
-        } else {
-            dispatch(getProductos())
-        }
+       if (!user) {
+           navigate('/login')
+       } else {
+           dispatch(getProductos())
+       }
 
-        return () => {
-            dispatch(reset())
-        }
+       return () => {
+           dispatch(reset())
+       }
 
-    }, [user, navigate, isError, message, dispatch])
+   }, [user, navigate, isError, message, dispatch])
 
-    const handleSearch = (event) => {
-        setSearch(event.target.value)
-      }
-      
-    if (isLoading) {
-        return <Spinner />
-    }
+   const handleSearch = (event) => {
+       setSearch(event.target.value)
+     }
+     
+   if (isLoading) {
+       return <Spinner />
+   }
 
-    return (
-        <>
-            <section className="heading">
-                <h1>Bienvenido {user && user.name}</h1>
-                <p>Dashboard de Productos</p>
-            </section>
+   return (
+       <>
+           <section className="heading">
+               <h1>Bienvenido {user && user.name}</h1>
+               <p>Dashboard de Productos</p>
+           </section>
 
-            <div className="form-group">
-                <Link to='productos/crear'>
-                    <button className='btn btn-block' type="submit">
-                        Agregar una Producto
-                    </button>
-                </Link>
-            </div>
-         
-            {/* <Buscador text={misproductos} /> */}
-            <input
-            type='text'
-            className='buscar'
-            placeholder='Buscar producto'
-            value={search}
-            onChange={handleSearch}
-          />
-            
-            <section className="content">
-                {misproductos.length  > 0 ?
-                    (
-                        <div className='tareas'>
-                            {filteredProductos.map((producto) => (//misproductos.map((producto) => (
-                                <ProductoItem key={producto.sku} producto={producto} />
-                            ))}
-                        </div>
-                    ) : (
-                        <h3>No hay productos que mostrar</h3>
-                    )
-                }
-            </section>
+           <div className="form-group">
+           
+               <Link to='productos/crear'>
+                   <button className='btn btn-block' type="submit">
+                       Agregar una Producto
+                   </button>
+               </Link>
+           </div>
+           
+           {/* <Buscador text={misproductos} /> */}
+           <input
+           type='text'
+           className='buscar'
+           placeholder='Buscar producto'
+           value={search}
+           onChange={handleSearch}
+         />
+           
+           <section className="content">
+               {misproductos.length  > 0 ?
+                   (
+                       <div className='tareas'>
+                           {filteredProductos.map((producto) => (//misproductos.map((producto) => (
+                               <ProductoItem key={producto.sku} producto={producto} user= {user.admin}/>
+                           ))}
+                       </div>
+                   ) : (
+                       <h3>No hay productos que mostrar</h3>
+                   )
+               }
+           </section>
 
-        </>
-    )
+       </>
+   )
 }
 
 export default Dashboard
